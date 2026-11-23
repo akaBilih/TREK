@@ -151,3 +151,44 @@
 .trek-dash .st-filter-row .st-menu > * {
   flex: none;
 }
+
+/* ----------------- content grid: a picture the book already holds ----------------- */
+/* The cell stays the button it was; the badge is its sibling, so neither sits inside the other. */
+.trek-dash .st-photo-item {
+  position: relative;
+  min-width: 0;
+}
+.trek-dash .st-photo-item > .st-photo-cell {
+  width: 100%;
+  display: block;
+  padding: 0;
+}
+.trek-dash .st-photo-used {
+  position: absolute;
+  inset-block-start: 4px;
+  inset-inline-end: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 18px;
+  height: 18px;
+  padding-inline: 4px;
+  justify-content: center;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  font-size: calc(10px * var(--fs-scale-caption, 1));
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: var(--sh-sm);
+  cursor: pointer;
+}
+.trek-dash .st-photo-used:hover {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+.trek-dash .st-photo-used:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}

@@ -19,7 +19,7 @@ import { isPageFilter, pageFilterFor, type PhotoFilter } from './photoFilter'
  * menu shows every name whole.
  */
 export function StudioContentFilter({
-  source, filter, setFilter, admitted, pageEntryIds, t, locale,
+  source, filter, setFilter, admitted, pageEntryIds, unusedCount = 0, t, locale,
 }: {
   source: JourneySource
   filter: PhotoFilter
@@ -28,6 +28,8 @@ export function StudioContentFilter({
   admitted: number
   /** The entries the page on the sheet is made of, from `entriesOnPage`. */
   pageEntryIds: number[]
+  /** How many pictures no page of the book holds yet. */
+  unusedCount?: number
   t: StudioT
   locale: string
 }) {
@@ -67,6 +69,7 @@ export function StudioContentFilter({
   const label = filter.kind === 'loose' ? t('journey.studio.filterLoose')
     : filter.kind === 'recent' ? t('journey.studio.filterRecent')
     : filter.kind === 'page' ? t('journey.studio.filterThisPage')
+    : filter.kind === 'unused' ? t('journey.studio.filterUnused')
     : filter.kind === 'entry' ? nameOf(source.entries.find(e => e.id === filter.id))
     : t('journey.studio.filterAll')
 
@@ -113,6 +116,12 @@ export function StudioContentFilter({
               label={t('journey.studio.filterLoose')}
               count={looseCount}
               onPick={() => pick({ kind: 'loose' })}
+            />
+            <FilterItem
+              on={filter.kind === 'unused'}
+              label={t('journey.studio.filterUnused')}
+              count={unusedCount}
+              onPick={() => pick({ kind: 'unused' })}
             />
             {withPhotos.length > 0 && <div className="st-menu-sep" />}
             {withPhotos.map(e => (

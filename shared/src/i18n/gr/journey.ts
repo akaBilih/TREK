@@ -686,6 +686,12 @@ const journey: TranslationStrings = {
   'journey.studio.entryPhotos': 'Φωτογραφίες',
   'journey.studio.noEntryPhotos': 'Αυτή η καταχώρηση δεν έχει ακόμη φωτογραφίες.',
   'journey.studio.noLoosePhotos': 'Κάθε φωτογραφία εδώ ανήκει σε μια καταχώρηση.',
+  'journey.studio.photoUsedOn': 'Χρησιμοποιείται στη σελίδα {page}',
+  'journey.studio.photoUsed': 'Χρησιμοποιείται {count} φορές',
+  'journey.studio.photoUsed.one': 'Χρησιμοποιείται μία φορά',
+  'journey.studio.photoGoTo': 'Μετάβαση στο σημείο χρήσης',
+  'journey.studio.filterUnused': 'Δεν έχουν χρησιμοποιηθεί ακόμη',
+  'journey.studio.noUnusedPhotos': 'Όλες οι φωτογραφίες είναι ήδη στο βιβλίο',
   'journey.studio.uploadPhotos': 'Μεταφόρτωση φωτογραφιών',
   'journey.studio.fromProvider': 'Από {name}',
   'journey.studio.fromProviderHint':
