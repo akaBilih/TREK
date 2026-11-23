@@ -8,7 +8,7 @@
  */
 
 /** Padding of `.st-work` in studio.css; the stage never starts closer to the edge. */
-export const WORK_CSS_PADDING_PX = 40;
+const WORK_CSS_PADDING_PX = 40;
 
 export interface AxisAnchorInput {
   /** Current scroll offset on this axis. */

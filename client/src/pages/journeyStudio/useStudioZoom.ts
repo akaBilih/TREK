@@ -5,9 +5,9 @@ import { useWheelZoom } from './zoomWheel';
 /** CSS defines 1in as 96px and 25.4mm, so this factor is exact, not a guess. */
 export const PX_PER_MM = 96 / 25.4;
 
-export const ZOOM_STEPS = [0.1, 0.15, 0.25, 0.35, 0.5, 0.65, 0.8, 1, 1.25, 1.5, 2, 3];
-export const MIN_ZOOM = ZOOM_STEPS[0];
-export const MAX_ZOOM = ZOOM_STEPS[ZOOM_STEPS.length - 1];
+const ZOOM_STEPS = [0.1, 0.15, 0.25, 0.35, 0.5, 0.65, 0.8, 1, 1.25, 1.5, 2, 3];
+const MIN_ZOOM = ZOOM_STEPS[0];
+const MAX_ZOOM = ZOOM_STEPS[ZOOM_STEPS.length - 1];
 const WORK_PADDING_PX = 72;
 
 export interface ZoomAnchorPoint {
