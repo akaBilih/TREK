@@ -31,7 +31,7 @@ function setup(visible: boolean) {
 
 afterEach(() => {
   vi.restoreAllMocks();
-  delete Element.prototype.scrollIntoView;
+  delete (Element.prototype as { scrollIntoView?: unknown }).scrollIntoView;
 });
 
 describe('isWithin', () => {
@@ -85,7 +85,7 @@ describe('useScrollActiveIntoView', () => {
 
   it('is a no-op where scrollIntoView does not exist', () => {
     setup(false);
-    delete Element.prototype.scrollIntoView;
+    delete (Element.prototype as { scrollIntoView?: unknown }).scrollIntoView;
     expect(() => render(<List active={1} />)).not.toThrow();
   });
 });
