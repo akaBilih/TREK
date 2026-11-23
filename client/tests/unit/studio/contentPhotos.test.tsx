@@ -208,7 +208,7 @@ describe('the upload cell', () => {
     openContent(source, { canEdit: false })
 
     expect(document.querySelector('.st-photo-cell.is-upload')).toBeNull()
-    expect(document.querySelector('input[type="file"]')).toBeNull()
+    expect(document.querySelector('input[type="file"][accept^="image"]')).toBeNull()
     expect(screen.queryByText('journey.studio.uploadToGallery')).toBeNull()
   })
 
@@ -218,7 +218,7 @@ describe('the upload cell', () => {
     expect(screen.getByText('journey.studio.uploadToGallery')).toBeInTheDocument()
 
     const file = picture('a.jpg')
-    fireEvent.change(document.querySelector('input[type="file"]')!, { target: { files: [file] } })
+    fireEvent.change(document.querySelector('input[type="file"][accept^="image"]')!, { target: { files: [file] } })
 
     await waitFor(() => expect(onUpload).toHaveBeenCalledWith([file], null, expect.any(Function)))
   })
@@ -231,7 +231,7 @@ describe('the upload cell', () => {
     expect(screen.getByText('journey.studio.uploadToEntry')).toBeInTheDocument()
 
     const file = picture('b.jpg')
-    fireEvent.change(document.querySelector('input[type="file"]')!, { target: { files: [file] } })
+    fireEvent.change(document.querySelector('input[type="file"][accept^="image"]')!, { target: { files: [file] } })
 
     await waitFor(() => expect(onUpload).toHaveBeenCalledWith([file], 1, expect.any(Function)))
   })
@@ -250,7 +250,7 @@ describe('the upload cell', () => {
     openContent(arrived, { onUpload })
     fireEvent.change(screen.getByLabelText('journey.studio.searchContent'), { target: { value: 'harbour' } })
 
-    fireEvent.change(document.querySelector('input[type="file"]')!, { target: { files: [picture('c.jpg')] } })
+    fireEvent.change(document.querySelector('input[type="file"][accept^="image"]')!, { target: { files: [picture('c.jpg')] } })
 
     await waitFor(() => expect(chipLabel()).toBe('journey.studio.filterRecent'))
     expect(shown()).toEqual([99])
@@ -263,7 +263,7 @@ describe('the upload cell', () => {
     openContent(source, { onUpload })
 
     const file = picture('d.jpg')
-    fireEvent.drop(document.querySelector('.st-panel-scroll')!, {
+    fireEvent.drop(document.querySelector('.st-panel-scroll[role="tabpanel"]')!, {
       dataTransfer: { files: [file], types: ['Files'] },
     })
 

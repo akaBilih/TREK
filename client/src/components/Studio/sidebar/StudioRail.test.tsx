@@ -67,7 +67,8 @@ function rule(selector: string, source = STUDIO_CSS): string {
 }
 
 /** The head of the panel that is open: the name every panel opens on. */
-const panelTitle = () => must(document.querySelector('.st-side .st-panel-head .st-what-label')).textContent;
+const panelTitle = () =>
+  must(document.querySelector('.st-side :not([hidden]) > .st-panel-head .st-what-label')).textContent;
 
 /** The name each section's panel opens on. */
 const TITLES: Record<RailSection, string> = {
