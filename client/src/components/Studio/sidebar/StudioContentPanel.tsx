@@ -4,7 +4,14 @@ import { useId, useState } from 'react';
 
 import { useStudioStore } from '../../../store/studioStore';
 import { photoSrc } from '../bookRender';
-import { emptyKeyFor, matchingEntries, matchingPhotos, photosFor, type PhotoFilter } from '../photoFilter';
+import {
+  emptyKeyFor,
+  entriesOnPage,
+  matchingEntries,
+  matchingPhotos,
+  photosFor,
+  type PhotoFilter,
+} from '../photoFilter';
 import { StudioContentFilter } from '../StudioContentFilter';
 import { PanelHead } from '../StudioPanelHead';
 import { StudioSearch } from '../StudioSearch';
@@ -121,7 +128,7 @@ export function StudioContentPanel({
           filter={filter}
           setFilter={setFilter}
           admitted={admitted.length}
-          pageEntryId={spread?.entryId ?? null}
+          pageEntryIds={entriesOnPage(spread, source)}
           t={t}
           locale={locale}
         />
