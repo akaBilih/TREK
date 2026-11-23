@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import type { AutoDesignedInput, AutoEntry, AutoPhoto, BookElement, BookPageNumbers, JourneyStats } from '@trek/shared'
 import {
@@ -394,6 +394,7 @@ export function useJourneyStudio() {
   const page = doc?.page ?? EMPTY_PAGE
   const spread = doc?.spreads[activeSpread] ?? null
   const spreadWidthMm = spread && spread.role === 'inner' ? page.pageWidth * 2 : page.pageWidth
+  const { zoom, setAutoFit, workRef, stepZoom, zoomToFit, canZoomIn, canZoomOut } = useStudioZoom(spreadWidthMm, page.pageHeight)
 
   const setPreset = useCallback((next: PagePresetId) => {
     const p = PAGE_PRESETS[next]
@@ -409,7 +410,7 @@ export function useJourneyStudio() {
       },
     }))
     setAutoFit(true)
-  }, [commit])
+  }, [commit, setAutoFit])
 
   /**
    * A free trim size.
@@ -448,7 +449,7 @@ export function useJourneyStudio() {
       },
     }))
     setAutoFit(true)
-  }, [commit])
+  }, [commit, setAutoFit])
 
   /**
    * Lay out again — one spread, or the whole book.
@@ -527,7 +528,6 @@ export function useJourneyStudio() {
      */
   }, [doc, queueSave, bookLoaded, journey])
 
-  const { zoom, setAutoFit, workRef, stepZoom, zoomToFit, canZoomIn, canZoomOut } = useStudioZoom(spreadWidthMm, page.pageHeight)
 
   const close = useCallback(() => {
     // Whatever is still queued goes now: the debounce exists so a drag is one
