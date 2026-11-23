@@ -18,7 +18,7 @@ import type { JourneySource, StudioT } from '../StudioSidebar';
 import { StudioTabPanel, StudioTabs } from '../StudioTabs';
 import type { StudioUploader } from '../studioUpload';
 import { photoDrop, type DropPlace } from './contentDrops';
-import { photoUsage, pageLabelOf } from './photoUsage';
+import { pageLabelOf, photoUsage } from './photoUsage';
 import { StudioEntryCard } from './StudioEntryCard';
 import { StudioPhotoCell } from './StudioPhotoCell';
 import { useContentUpload } from './useContentUpload';

@@ -1,7 +1,7 @@
 import { bookPageSetupSchema, normalizeBookDocument, type BookDocument } from '@trek/shared';
 import { describe, expect, it } from 'vitest';
 
-import { photoUsage, pageLabelOf } from './photoUsage';
+import { pageLabelOf, photoUsage } from './photoUsage';
 
 const photo = (id: string, photoId: number | undefined, over: Record<string, unknown> = {}) => ({
   id,
