@@ -8,6 +8,7 @@ import { folioLabel, foliosOf } from '../bookSheets';
 import { MAX_SPREAD_FILE_BYTES, importSpread } from '../spreadFile';
 import { SpreadThumb } from '../SpreadThumb';
 import { PanelHead } from '../StudioPanelHead';
+import { useScrollActiveIntoView } from './useScrollActiveIntoView';
 
 /**
  * The Pages section of the rail: the book's pages in order, the actions on
@@ -52,6 +53,7 @@ export function StudioPagesPanel({
   const canEditSpread = useStudioStore((s) => s.canEditSpread);
   const spreads = doc?.spreads ?? [];
   const list = useElementSize<HTMLDivElement>();
+  const scroller = useScrollActiveIntoView<HTMLDivElement>(active);
   const thumbWidth = Math.max(MIN_PREVIEW_W, list.width - THUMB_CHROME);
 
   /** Where a new spread would land: after the last inner one. */
@@ -85,7 +87,7 @@ export function StudioPagesPanel({
   return (
     <>
       <PanelHead label={t('journey.studio.pages')} count={spreads.length} />
-      <div className="st-panel-scroll">
+      <div className="st-panel-scroll" ref={scroller}>
         <div className="st-thumbs" ref={list.ref}>
           {spreads.map((sp, i) => {
             const editable = canEditSpread(i);
