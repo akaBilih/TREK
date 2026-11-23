@@ -5,6 +5,7 @@ import { StudioLayersPanel } from './StudioLayersPanel'
 import { StudioTravelPanel } from './StudioTravelPanel'
 import { StudioThemePanel } from './theme/StudioThemePanel'
 import { StudioTemplatesPanel } from './templates/StudioTemplatesPanel'
+import { KeptPanel } from './sidebar/KeptPanel'
 import { StudioRail } from './sidebar/StudioRail'
 import { StudioPagesPanel } from './sidebar/StudioPagesPanel'
 import { StudioContentPanel } from './sidebar/StudioContentPanel'
@@ -21,6 +22,9 @@ import type { StudioUploader } from './studioUpload'
  * them behind tabs in a single 200px column would make each of them cramped.
  * An icon rail costs 64px, a little more where a section's name holds a longer
  * word, and gives the panel the room a photo browser needs.
+ *
+ * A section mounts the first time it opens and stays mounted, hidden while another
+ * is open, so a scrolled list or a search is where it was left.
  *
  * Which section is open is the shell's when it says so (`section` and
  * `onSection`), so the inspector on the other side can open the Theme or the
@@ -90,6 +94,9 @@ export function StudioSidebar({
 }) {
   const [own, setOwn] = useState<RailSection>('pages')
   const open = section ?? own
+  // A section mounts when first opened and stays, so it keeps its state and scroll.
+  const [visited, setVisited] = useState<ReadonlySet<RailSection>>(() => new Set([open]))
+  if (!visited.has(open)) setVisited(new Set(visited).add(open))
   const setOpen = (next: RailSection) => {
     setOwn(next)
     onSection?.(next)
@@ -105,29 +112,44 @@ export function StudioSidebar({
         role="tabpanel"
         aria-labelledby={RAIL_IDS.tab(open)}
       >
-        {open === 'pages' && <StudioPagesPanel page={page} pxPerMm={pxPerMm} bookView={bookView} t={t} />}
-        {open === 'content' && (
-          <StudioContentPanel source={source} page={page} t={t} locale={locale} canEdit={canEdit} onUpload={onUpload}
-            providers={providers} onBrowseProvider={onBrowseProvider} />
+        {visited.has('pages') && (
+          <KeptPanel active={open === 'pages'}>
+            <StudioPagesPanel page={page} pxPerMm={pxPerMm} bookView={bookView} t={t} />
+          </KeptPanel>
         )}
-        {open === 'templates' && (
-          <StudioTemplatesPanel page={page} pxPerMm={pxPerMm} t={t} locale={locale} source={source} stats={stats}
-            path={path} onOpenContent={() => setOpen('content')} />
+        {visited.has('content') && (
+          <KeptPanel active={open === 'content'}>
+            <StudioContentPanel source={source} page={page} t={t} locale={locale} canEdit={canEdit} onUpload={onUpload}
+              providers={providers} onBrowseProvider={onBrowseProvider} />
+          </KeptPanel>
         )}
-        {open === 'elements' && <StudioElementsPanel page={page} t={t} source={source} />}
-        {open === 'travel' && (
-          <StudioTravelPanel
-            page={page}
-            stats={stats}
-            path={path}
-            t={t}
-            locale={locale}
-            canEdit={canEdit}
-            onToggleStop={onToggleStop}
-          />
+        {visited.has('templates') && (
+          <KeptPanel active={open === 'templates'}>
+            <StudioTemplatesPanel page={page} pxPerMm={pxPerMm} t={t} locale={locale} source={source} stats={stats}
+              path={path} onOpenContent={() => setOpen('content')} />
+          </KeptPanel>
         )}
-        {open === 'theme' && <StudioThemePanel t={t} />}
-        {open === 'layers' && <StudioLayersPanel t={t} />}
+        {visited.has('elements') && (
+          <KeptPanel active={open === 'elements'}>
+            <StudioElementsPanel page={page} t={t} source={source} />
+          </KeptPanel>
+        )}
+        {visited.has('travel') && (
+          <KeptPanel active={open === 'travel'}>
+            <StudioTravelPanel page={page} stats={stats} path={path} t={t} locale={locale} canEdit={canEdit}
+              onToggleStop={onToggleStop} />
+          </KeptPanel>
+        )}
+        {visited.has('theme') && (
+          <KeptPanel active={open === 'theme'}>
+            <StudioThemePanel t={t} />
+          </KeptPanel>
+        )}
+        {visited.has('layers') && (
+          <KeptPanel active={open === 'layers'}>
+            <StudioLayersPanel t={t} />
+          </KeptPanel>
+        )}
       </aside>
     </>
   )
