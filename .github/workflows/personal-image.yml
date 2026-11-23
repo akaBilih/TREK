@@ -1,0 +1,50 @@
+name: Build personal image (ghcr)
+
+# Personal fork only: builds this branch's Dockerfile and pushes it to the
+# fork owner's GitHub Container Registry. Not part of the upstream project.
+# Uses the built-in GITHUB_TOKEN and no third-party actions.
+
+on:
+  push:
+    branches: [personal/studio-improvements-release]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: personal-image
+  cancel-in-progress: true
+
+jobs:
+  image:
+    if: github.repository_owner != 'liketrek'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Work out the image name
+        id: img
+        run: |
+          owner="${GITHUB_REPOSITORY_OWNER,,}"
+          echo "name=ghcr.io/${owner}/trek-studio" >> "$GITHUB_OUTPUT"
+          echo "version=5.1.4-studio" >> "$GITHUB_OUTPUT"
+          echo "short=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to ghcr.io
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+
+      - name: Build
+        run: |
+          docker build \
+            --build-arg APP_VERSION="${{ steps.img.outputs.version }}" \
+            -t "${{ steps.img.outputs.name }}:${{ steps.img.outputs.version }}" \
+            -t "${{ steps.img.outputs.name }}:sha-${{ steps.img.outputs.short }}" \
+            .
+
+      - name: Push
+        run: |
+          docker push "${{ steps.img.outputs.name }}:${{ steps.img.outputs.version }}"
+          docker push "${{ steps.img.outputs.name }}:sha-${{ steps.img.outputs.short }}"
