@@ -332,6 +332,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Priblížiť',
   'journey.studio.zoomOut': 'Oddialiť',
   'journey.studio.zoomFit': 'Prispôsobiť pohľadu',
+  'journey.studio.prevPage': 'Predchádzajúca strana',
+  'journey.studio.nextPage': 'Ďalšia strana',
   'journey.studio.downloadSpread': 'Stiahnuť túto dvojstranu',
   'journey.studio.downloadSpreadHint':
     'Uloží návrh tejto dvojstrany ako súbor, bez fotografií, na zdieľanie alebo ďalšie použitie',

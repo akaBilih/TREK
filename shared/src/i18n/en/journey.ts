@@ -321,6 +321,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Zoom in',
   'journey.studio.zoomOut': 'Zoom out',
   'journey.studio.zoomFit': 'Fit to view',
+  'journey.studio.prevPage': 'Previous page',
+  'journey.studio.nextPage': 'Next page',
   'journey.studio.downloadSpread': 'Download this spread',
   'journey.studio.downloadSpreadHint':
     "Saves this spread's design as a file, without the photographs, to share or reuse",

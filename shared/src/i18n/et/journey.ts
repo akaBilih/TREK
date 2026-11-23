@@ -322,6 +322,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Suurenda',
   'journey.studio.zoomOut': 'Vähenda',
   'journey.studio.zoomFit': 'Mahuta vaatesse',
+  'journey.studio.prevPage': 'Eelmine leht',
+  'journey.studio.nextPage': 'Järgmine leht',
   'journey.studio.downloadSpread': 'Laadi see lehepaar alla',
   'journey.studio.downloadSpreadHint':
     'Salvestab selle lehepaari kujunduse fotodeta failina jagamiseks või taaskasutamiseks',

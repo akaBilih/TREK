@@ -323,6 +323,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Zoom avant',
   'journey.studio.zoomOut': 'Zoom arrière',
   'journey.studio.zoomFit': 'Ajuster à la vue',
+  'journey.studio.prevPage': 'Page précédente',
+  'journey.studio.nextPage': 'Page suivante',
   'journey.studio.downloadSpread': 'Télécharger cette double page',
   'journey.studio.downloadSpreadHint':
     'Enregistre la mise en page de cette double page dans un fichier, sans les photos, à partager ou à réutiliser',

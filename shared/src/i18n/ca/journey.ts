@@ -323,6 +323,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Amplia',
   'journey.studio.zoomOut': 'Redueix',
   'journey.studio.zoomFit': 'Ajusta a la vista',
+  'journey.studio.prevPage': 'Pàgina anterior',
+  'journey.studio.nextPage': 'Pàgina següent',
   'journey.studio.downloadSpread': 'Baixa aquesta doble pàgina',
   'journey.studio.downloadSpreadHint':
     "Desa el disseny d'aquesta doble pàgina com a fitxer, sense les fotos, per compartir-lo o reutilitzar-lo",

@@ -321,6 +321,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Nagyítás',
   'journey.studio.zoomOut': 'Kicsinyítés',
   'journey.studio.zoomFit': 'Illesztés a nézethez',
+  'journey.studio.prevPage': 'Előző oldal',
+  'journey.studio.nextPage': 'Következő oldal',
   'journey.studio.downloadSpread': 'Oldalpár letöltése',
   'journey.studio.downloadSpreadHint':
     'Fájlba menti az oldalpár elrendezését, a fényképek nélkül, megosztáshoz vagy újrafelhasználáshoz',

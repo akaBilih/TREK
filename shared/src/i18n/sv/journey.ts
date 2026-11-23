@@ -321,6 +321,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Zooma in',
   'journey.studio.zoomOut': 'Zooma ut',
   'journey.studio.zoomFit': 'Anpassa till vyn',
+  'journey.studio.prevPage': 'Föregående sida',
+  'journey.studio.nextPage': 'Nästa sida',
   'journey.studio.downloadSpread': 'Ladda ner det här uppslaget',
   'journey.studio.downloadSpreadHint':
     'Sparar uppslagets design som en fil, utan fotografierna, att dela eller återanvända',

@@ -24,6 +24,7 @@ import { useStudioStore } from '../../store/studioStore';
  * - Ctrl+] and Ctrl+[: forward and backward, with Shift to the front and back.
  * - Arrows: nudge 1 mm, 10 mm with Shift. Holding one down is one undo step.
  * - Escape inside a group: back to the whole group selected.
+ * - PageUp and PageDown: the previous and the next page (stopping at the first and last).
  *
  * Ctrl is Cmd on a Mac throughout.
  */
@@ -43,6 +44,16 @@ function isTypingTarget(target: EventTarget | null): boolean {
   const el = target as HTMLElement | null;
   if (!el) return false;
   return el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT' || el.isContentEditable;
+}
+
+/**
+ * The page a bare PageUp or PageDown goes to, null when the key is another or
+ * the book ends there. Alt+Arrow is not used: it is back and forward in the browser.
+ */
+export function pageStepTarget(e: KeyboardEvent, spreadIndex: number, count: number): number | null {
+  if (e.ctrlKey || e.metaKey || e.altKey || e.shiftKey) return null;
+  const to = e.key === 'PageUp' ? spreadIndex - 1 : e.key === 'PageDown' ? spreadIndex + 1 : null;
+  return to !== null && to >= 0 && to < count ? to : null;
 }
 
 /** Which of the deletable: on the page, selected, unlocked. */
@@ -147,6 +158,13 @@ export function useStudioKeys(opts: { spreadIndex: number; editing: boolean }) {
       if (e.key === 'Escape') {
         // Out of the group first; the Studio page's own Escape sees it was taken.
         if (store.leaveGroup(spreadIndex)) e.preventDefault();
+        return;
+      }
+      const page = pageStepTarget(e, spreadIndex, store.doc?.spreads.length ?? 0);
+      if (page !== null) {
+        // Only a press that moved is taken: at either end the key stays the browser's.
+        e.preventDefault();
+        store.setActiveSpread(page);
         return;
       }
       if (deleteSelection(e, store, spreadIndex, spread)) return;

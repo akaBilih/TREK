@@ -341,6 +341,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Powiększ',
   'journey.studio.zoomOut': 'Pomniejsz',
   'journey.studio.zoomFit': 'Dopasuj do widoku',
+  'journey.studio.prevPage': 'Poprzednia strona',
+  'journey.studio.nextPage': 'Następna strona',
   'journey.studio.downloadSpread': 'Pobierz tę rozkładówkę',
   'journey.studio.downloadSpreadHint':
     'Zapisuje projekt tej rozkładówki jako plik, bez zdjęć, do udostępnienia lub ponownego użycia',

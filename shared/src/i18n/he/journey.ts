@@ -325,6 +325,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'הגדלה',
   'journey.studio.zoomOut': 'הקטנה',
   'journey.studio.zoomFit': 'התאמה לתצוגה',
+  'journey.studio.prevPage': 'העמוד הקודם',
+  'journey.studio.nextPage': 'העמוד הבא',
   'journey.studio.downloadSpread': 'הורדת הכפולה',
   'journey.studio.downloadSpreadHint': 'שומר את עיצוב הכפולה כקובץ, ללא התמונות, לשיתוף או לשימוש חוזר',
   'journey.studio.importSpread': 'ייבוא',

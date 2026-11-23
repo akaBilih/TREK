@@ -308,6 +308,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'ซูมเข้า',
   'journey.studio.zoomOut': 'ซูมออก',
   'journey.studio.zoomFit': 'พอดีจะดู.',
+  'journey.studio.prevPage': 'หน้าก่อนหน้า',
+  'journey.studio.nextPage': 'หน้าถัดไป',
   'journey.studio.downloadSpread': 'ดาวน์โหลดสเปรดนี้',
   'journey.studio.downloadSpreadHint': 'บันทึกการออกแบบของสเปรดนี้เป็นไฟล์ โดยไม่มีรูปถ่าย เพื่อแบ่งปันหรือนำมาใช้ซ้ำ',
   'journey.studio.importSpread': 'นำเข้า',
