@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Check, ChevronDown, X } from 'lucide-react'
 import { formatDate } from '../../utils/formatters'
 import type { JourneySource, StudioT } from './StudioSidebar'
-import type { PhotoFilter } from './photoFilter'
+import { isPageFilter, pageFilterFor, type PhotoFilter } from './photoFilter'
 
 /**
  * Which day's pictures the content browser is showing.
@@ -19,15 +19,15 @@ import type { PhotoFilter } from './photoFilter'
  * menu shows every name whole.
  */
 export function StudioContentFilter({
-  source, filter, setFilter, admitted, pageEntryId, t, locale,
+  source, filter, setFilter, admitted, pageEntryIds, t, locale,
 }: {
   source: JourneySource
   filter: PhotoFilter
   setFilter: (f: PhotoFilter) => void
   /** How many pictures the current filter admits, for the chip's own count. */
   admitted: number
-  /** The entry the spread on the sheet was laid out from, when it has one. */
-  pageEntryId: number | null
+  /** The entries the page on the sheet is made of, from `entriesOnPage`. */
+  pageEntryIds: number[]
   t: StudioT
   locale: string
 }) {
@@ -66,16 +66,18 @@ export function StudioContentFilter({
 
   const label = filter.kind === 'loose' ? t('journey.studio.filterLoose')
     : filter.kind === 'recent' ? t('journey.studio.filterRecent')
+    : filter.kind === 'page' ? t('journey.studio.filterThisPage')
     : filter.kind === 'entry' ? nameOf(source.entries.find(e => e.id === filter.id))
     : t('journey.studio.filterAll')
 
   /*
-   * The page on the sheet belongs to a day, so its pictures are one press
+   * The page on the sheet is made of one or more entries, so their pictures are one press
    * away. Offered only while the filter is not already there: a chip for the
    * state you are in is a chip that does nothing.
    */
-  const pageEntry = pageEntryId != null ? withPhotos.find(e => e.id === pageEntryId) : undefined
-  const offerThisPage = pageEntry && !(filter.kind === 'entry' && filter.id === pageEntry.id)
+  const pageIds = withPhotos.filter(e => pageEntryIds.includes(e.id)).map(e => e.id)
+  const pageFilter = pageFilterFor(pageIds)
+  const offerThisPage = pageFilter && !isPageFilter(filter, pageIds)
 
   return (
     <div className="st-filter-row">
@@ -130,7 +132,7 @@ export function StudioContentFilter({
       </div>
 
       {offerThisPage && (
-        <button type="button" className="st-chip" onClick={() => setFilter({ kind: 'entry', id: pageEntry.id })}>
+        <button type="button" className="st-chip" onClick={() => setFilter(pageFilter)}>
           {t('journey.studio.filterThisPage')}
         </button>
       )}

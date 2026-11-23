@@ -1,65 +1,81 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { fireEvent, render, screen } from '../../../tests/helpers/render';
+import type { PhotoFilter } from './photoFilter';
 import { StudioContentFilter } from './StudioContentFilter';
 import type { JourneySource } from './StudioSidebar';
 
-/** FE-STUDIO-FILTER-001 to FE-STUDIO-FILTER-002: the entry menu of a long journey. */
+/**
+ * FE-STUDIO-CONTENTFILTER-001 to FE-STUDIO-CONTENTFILTER-005: the "This page"
+ * chip, offered from the entries the page is made of.
+ */
 
-const source = {
-  entries: Array.from({ length: 111 }, (_, i) => ({
-    id: i + 1,
-    title: `Entry ${i + 1}`,
-    story: null,
-    location: null,
-    date: null,
-    lat: null,
-    lng: null,
-    mood: null,
-    weather: null,
-    pros: [],
-    cons: [],
-    photoIds: [i + 1],
-  })),
-  photos: Array.from({ length: 111 }, (_, i) => ({ photoId: i + 1, entryIds: [i + 1] })),
-} as unknown as JourneySource;
+const entry = (id: number, photoIds: number[]): JourneySource['entries'][number] => ({
+  id,
+  title: `Entry ${id}`,
+  story: null,
+  location: null,
+  date: null,
+  lat: null,
+  lng: null,
+  mood: null,
+  weather: null,
+  pros: [],
+  cons: [],
+  photoIds,
+});
+const SOURCE: JourneySource = {
+  entries: [entry(1, []), entry(2, [20]), entry(3, [30])],
+  photos: [
+    { photoId: 20, entryIds: [2] },
+    { photoId: 30, entryIds: [3] },
+  ],
+  photoEntries: {},
+};
+const t = (k: string) => k;
 
-const t = (key: string) => key;
-
-const mount = (filter: Parameters<typeof StudioContentFilter>[0]['filter']) =>
+function draw(pageEntryIds: number[], filter: PhotoFilter = { kind: 'all' }) {
+  const setFilter = vi.fn();
   render(
     <StudioContentFilter
-      source={source}
+      source={SOURCE}
       filter={filter}
-      setFilter={() => {}}
-      admitted={1}
-      pageEntryId={null}
+      setFilter={setFilter}
+      admitted={2}
+      pageEntryIds={pageEntryIds}
       t={t}
       locale="en"
     />
   );
+  return setFilter;
+}
 
-describe('StudioContentFilter', () => {
-  afterEach(() => {
-    delete (HTMLElement.prototype as { scrollIntoView?: unknown }).scrollIntoView;
+describe('StudioContentFilter this-page chip', () => {
+  it('FE-STUDIO-CONTENTFILTER-001: several entries with photos give a page filter over all of them', () => {
+    const setFilter = draw([1, 2, 3]);
+    fireEvent.click(screen.getByText('journey.studio.filterThisPage'));
+    expect(setFilter).toHaveBeenCalledWith({ kind: 'page', ids: [2, 3] });
   });
 
-  it('FE-STUDIO-FILTER-001: opening the menu scrolls the entry in force into view', () => {
-    const scrollIntoView = vi.fn();
-    HTMLElement.prototype.scrollIntoView = scrollIntoView;
-    mount({ kind: 'entry', id: 100 });
-    fireEvent.click(screen.getByTitle('journey.studio.filterPhotos'));
-    const active = screen.getByRole('menuitemradio', { checked: true });
-    expect(active).toHaveTextContent('Entry 100');
-    expect(scrollIntoView).toHaveBeenCalledTimes(1);
-    expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest' });
-    expect(screen.getAllByRole('menuitemradio')).toHaveLength(113);
+  it('FE-STUDIO-CONTENTFILTER-002: the first entry having no photos does not hide the chip; one entry stays an entry filter', () => {
+    const setFilter = draw([1, 3]);
+    fireEvent.click(screen.getByText('journey.studio.filterThisPage'));
+    expect(setFilter).toHaveBeenCalledWith({ kind: 'entry', id: 3 });
   });
 
-  it('FE-STUDIO-FILTER-002: opens without scrollIntoView (jsdom) and not at all while closed', () => {
-    mount({ kind: 'all' });
-    expect(screen.queryByRole('menu')).toBeNull();
-    fireEvent.click(screen.getByTitle('journey.studio.filterPhotos'));
-    expect(screen.getByRole('menu')).toBeInTheDocument();
+  it('FE-STUDIO-CONTENTFILTER-003: no chip for an empty page or entries without photos', () => {
+    draw([]);
+    expect(screen.queryByText('journey.studio.filterThisPage')).toBeNull();
+  });
+
+  it('FE-STUDIO-CONTENTFILTER-004: no chip when entries have no photos at all', () => {
+    draw([1]);
+    expect(screen.queryByText('journey.studio.filterThisPage')).toBeNull();
+  });
+
+  it('FE-STUDIO-CONTENTFILTER-005: no chip once the filter is on exactly the page set; the filter is labelled', () => {
+    draw([2, 3], { kind: 'page', ids: [3, 2] });
+    // Only the filter's own label remains, not a second chip.
+    expect(screen.getAllByText('journey.studio.filterThisPage')).toHaveLength(1);
   });
 });

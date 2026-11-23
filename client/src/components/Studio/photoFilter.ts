@@ -1,3 +1,5 @@
+import type { BookElement, BookSpread } from '@trek/shared'
+
 import type { JourneySource } from './StudioSidebar'
 
 /**
@@ -11,6 +13,8 @@ export type PhotoFilter =
   | { kind: 'all' }
   | { kind: 'entry'; id: number }
   | { kind: 'loose' }
+  /** The entries that have something on the page on the sheet; two or more, one is an `entry`. */
+  | { kind: 'page'; ids: number[] }
   | { kind: 'recent'; photoIds: number[] }
 
 type Photo = JourneySource['photos'][number]
@@ -30,6 +34,8 @@ export function photosFor(source: JourneySource, filter: PhotoFilter): Photo[] {
       return source.photos.filter(p => p.entryIds.includes(filter.id))
     case 'loose':
       return source.photos.filter(p => !p.entryIds.length)
+    case 'page':
+      return source.photos.filter(p => p.entryIds.some(id => filter.ids.includes(id)))
     case 'recent': {
       // In the order they were sent, which is the order they were chosen in,
       // not wherever the gallery sorted them.
@@ -42,6 +48,60 @@ export function photosFor(source: JourneySource, filter: PhotoFilter): Photo[] {
     default:
       return source.photos
   }
+}
+
+/** The photo ids an element shows: its frame, a map's markers, the picture its letters are filled with. */
+function shownPhotoIds(e: BookElement): number[] {
+  if (e.kind === 'photo') return e.photoId == null ? [] : [e.photoId]
+  if (e.kind === 'map') return e.points.flatMap(p => (p.photoId == null ? [] : [p.photoId]))
+  if (e.kind === 'text' && e.fillPaint?.type === 'photo') return [e.fillPaint.photoId]
+  return []
+}
+
+/** The entry id a text bound to an entry names outright. */
+function namedEntryIds(e: BookElement): number[] {
+  return e.kind === 'text' && e.binding?.entryId != null ? [e.binding.entryId] : []
+}
+
+/**
+ * The journal entries the page on the sheet is made of, in journal order.
+ *
+ * Read off what is on the page rather than off the one entry the auto layout
+ * remembered: a day with three stops is three entries, and a page made by hand
+ * has none remembered at all. An entry counts when a text is bound to it, or
+ * when a picture placed on the page belongs to it; the entry the page was laid
+ * out from seeds the set. Parked elements are not on the page. Ids the journal
+ * no longer has are dropped.
+ */
+export function entriesOnPage(
+  spread: Pick<BookSpread, 'elements' | 'entryId'> | undefined,
+  source: JourneySource,
+): number[] {
+  if (!spread) return []
+  const found = new Set<number>()
+  if (spread.entryId != null) found.add(spread.entryId)
+  const owners = new Map(source.photos.map(p => [p.photoId, p.entryIds] as const))
+  for (const e of spread.elements) {
+    namedEntryIds(e).forEach(id => found.add(id))
+    for (const photoId of shownPhotoIds(e)) (owners.get(photoId) ?? []).forEach(id => found.add(id))
+    if (e.kind === 'text' && e.binding?.source === 'photo.caption' && e.binding.photoId != null) {
+      (owners.get(e.binding.photoId) ?? []).forEach(id => found.add(id))
+    }
+  }
+  return source.entries.filter(e => found.has(e.id)).map(e => e.id)
+}
+
+/** The filter that shows these entries: the entry itself for one, the union for several, none for none. */
+export function pageFilterFor(ids: number[]): PhotoFilter | null {
+  if (!ids.length) return null
+  return ids.length === 1 ? { kind: 'entry', id: ids[0] } : { kind: 'page', ids }
+}
+
+/** Whether a filter already shows exactly this page's entries. */
+export function isPageFilter(filter: PhotoFilter, ids: number[]): boolean {
+  if (filter.kind === 'entry') return ids.length === 1 && ids[0] === filter.id
+  if (filter.kind !== 'page') return false
+  return filter.ids.length === ids.length && ids.every(id => filter.ids.includes(id))
 }
 
 /**
