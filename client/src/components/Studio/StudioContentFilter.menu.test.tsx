@@ -53,7 +53,7 @@ describe('StudioContentFilter', () => {
     expect(active).toHaveTextContent('Entry 100');
     expect(scrollIntoView).toHaveBeenCalledTimes(1);
     expect(scrollIntoView).toHaveBeenCalledWith({ block: 'nearest' });
-    expect(screen.getAllByRole('menuitemradio')).toHaveLength(113);
+    expect(screen.getAllByRole('menuitemradio')).toHaveLength(114);
   });
 
   it('FE-STUDIO-FILTER-002: opens without scrollIntoView (jsdom) and not at all while closed', () => {
