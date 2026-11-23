@@ -672,6 +672,12 @@ const journey: TranslationStrings = {
   'journey.studio.entryPhotos': 'Photos', // same-as-en
   'journey.studio.noEntryPhotos': "Cette entrée n'a pas encore de photos.",
   'journey.studio.noLoosePhotos': 'Chaque photo ici appartient à une entrée.',
+  'journey.studio.photoUsedOn': 'Utilisée page {page}',
+  'journey.studio.photoUsed': 'Utilisée {count} fois',
+  'journey.studio.photoUsed.one': 'Utilisée {count} fois',
+  'journey.studio.photoGoTo': 'Aller à l\'endroit où elle est utilisée',
+  'journey.studio.filterUnused': 'Pas encore utilisées',
+  'journey.studio.noUnusedPhotos': 'Toutes les photos sont déjà dans le livre',
   'journey.studio.uploadPhotos': 'Téléverser des photos',
   'journey.studio.fromProvider': 'Depuis {name}',
   'journey.studio.fromProviderHint': 'Choisir des photos dans {name} et les ajouter là où irait un envoi',

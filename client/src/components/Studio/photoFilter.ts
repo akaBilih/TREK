@@ -12,6 +12,7 @@ export type PhotoFilter =
   | { kind: 'entry'; id: number }
   | { kind: 'loose' }
   | { kind: 'recent'; photoIds: number[] }
+  | { kind: 'unused' }
 
 type Photo = JourneySource['photos'][number]
 
@@ -24,8 +25,15 @@ type Photo = JourneySource['photos'][number]
  * rules are the feature and a rendered component is an awkward place to prove
  * them right.
  */
-export function photosFor(source: JourneySource, filter: PhotoFilter): Photo[] {
+export function photosFor(
+  source: JourneySource,
+  filter: PhotoFilter,
+  /** The book's usage of each picture (`photoUsage`), which `unused` is read off. */
+  used?: ReadonlyMap<number, unknown>,
+): Photo[] {
   switch (filter.kind) {
+    case 'unused':
+      return source.photos.filter(p => !used?.has(p.photoId))
     case 'entry':
       return source.photos.filter(p => p.entryIds.includes(filter.id))
     case 'loose':
@@ -74,6 +82,7 @@ const EMPTY = {
   unmatched: { emptyKey: 'journey.studio.noMatches' },
   entry: { emptyKey: 'journey.studio.noEntryPhotos' },
   loose: { emptyKey: 'journey.studio.noLoosePhotos' },
+  unused: { emptyKey: 'journey.studio.noUnusedPhotos' },
 } as const
 
 /**
@@ -87,5 +96,6 @@ export function emptyKeyFor(source: JourneySource, filter: PhotoFilter, admitted
   if (admitted.length) return EMPTY.unmatched.emptyKey
   if (filter.kind === 'entry') return EMPTY.entry.emptyKey
   if (filter.kind === 'loose') return EMPTY.loose.emptyKey
+  if (filter.kind === 'unused') return EMPTY.unused.emptyKey
   return EMPTY.unmatched.emptyKey
 }

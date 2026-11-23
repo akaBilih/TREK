@@ -124,3 +124,18 @@ describe('why the grid is empty', () => {
     expect(emptyKeyFor(source, { kind: 'recent', photoIds: [] }, [])).toBe('journey.studio.noMatches')
   })
 })
+
+describe('the unused filter', () => {
+  it('admits only pictures the book does not hold', () => {
+    const used = new Map([[11, [{ spreadIndex: 1, elementId: 'e' }]], [13, []]])
+    expect(photosFor(source, { kind: 'unused' }, used).map(p => p.photoId)).toEqual([12, 14])
+  })
+
+  it('admits everything when no usage is given', () => {
+    expect(photosFor(source, { kind: 'unused' })).toHaveLength(source.photos.length)
+  })
+
+  it('says so when every picture is already in the book', () => {
+    expect(emptyKeyFor(source, { kind: 'unused' }, [])).toBe('journey.studio.noUnusedPhotos')
+  })
+})

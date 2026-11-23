@@ -308,3 +308,71 @@ describe('photos from a provider (#2271)', () => {
   })
 })
 
+
+describe('pictures the book already holds', () => {
+  const photoEl = (id: string, photoId: number) => ({
+    id, kind: 'photo', frame: { x: 0, y: 0, w: 50, h: 50 }, photoId,
+  })
+  const inner = (id: string, elements: unknown[]) => ({
+    id, role: 'inner', entryId: null, background: null, elements, parked: [],
+  })
+  const loadUsed = () => useStudioStore.getState().load(normalizeBookDocument({
+    version: 1,
+    title: 'Iceland',
+    page: { preset: 'square-210', pageWidth: 210, pageHeight: 210, bleed: 3, safe: 5 },
+    spreads: [
+      inner('a', [photoEl('e1', 11)]),
+      inner('b', [photoEl('e2', 12), photoEl('e3', 13)]),
+      inner('c', [photoEl('e4', 12)]),
+    ],
+  }))
+
+  it('badges a used picture, with the count only past one', () => {
+    loadUsed()
+    openContent()
+
+    expect(screen.getAllByLabelText('journey.studio.photoUsedOn. journey.studio.photoGoTo')).toHaveLength(2)
+    const badges = [...document.querySelectorAll('.st-photo-used')]
+    // 11, 12 and 13 are used; 14 is not.
+    expect(badges).toHaveLength(3)
+    const twice = screen.getByLabelText('journey.studio.photoUsed. journey.studio.photoGoTo')
+    expect(twice.textContent).toBe('2')
+    expect(document.querySelectorAll('.st-photo-item button button')).toHaveLength(0)
+  })
+
+  it('goes to where it is used, and round the places on repeated presses', () => {
+    loadUsed()
+    openContent()
+    const twice = screen.getByLabelText('journey.studio.photoUsed. journey.studio.photoGoTo')
+
+    fireEvent.click(twice)
+    expect(useStudioStore.getState().activeSpread).toBe(1)
+    expect(useStudioStore.getState().selection).toEqual(['e2'])
+
+    fireEvent.click(twice)
+    expect(useStudioStore.getState().activeSpread).toBe(2)
+    expect(useStudioStore.getState().selection).toEqual(['e4'])
+
+    fireEvent.click(twice)
+    expect(useStudioStore.getState().activeSpread).toBe(1)
+  })
+
+  it('still adds a used picture again from its thumbnail', () => {
+    loadUsed()
+    openContent()
+    const before = (useStudioStore.getState().doc?.spreads[0]?.elements.length ?? 0)
+    fireEvent.click(screen.getAllByLabelText('journey.studio.addToPage')[0] as HTMLElement)
+    expect((useStudioStore.getState().doc?.spreads[0]?.elements.length ?? 0)).toBe(before + 1)
+  })
+
+  it('narrows to the pictures not used yet', () => {
+    loadUsed()
+    openContent()
+    openMenu()
+    expect(screen.getByRole('menuitemradio', { name: /journey\.studio\.filterUnused/ }).textContent).toContain('1')
+    fireEvent.click(screen.getByRole('menuitemradio', { name: /journey\.studio\.filterUnused/ }))
+
+    expect(shown()).toEqual([14])
+    expect(document.querySelectorAll('.st-photo-used')).toHaveLength(0)
+  })
+})
