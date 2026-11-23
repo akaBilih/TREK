@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { anchoredScroll } from './zoomAnchor';
+import { useWheelZoom } from './zoomWheel';
 
 /** CSS defines 1in as 96px and 25.4mm, so this factor is exact, not a guess. */
 export const PX_PER_MM = 96 / 25.4;
@@ -79,6 +80,8 @@ export function useStudioZoom(spreadWidthMm: number, pageHeightMm: number) {
     },
     [zoomTo]
   );
+
+  useWheelZoom(workRef, () => zoomRef.current, zoomTo);
 
   // Fit on mount and on resize, but only while the user has not taken over the
   // zoom — otherwise a window resize would silently undo their choice.
