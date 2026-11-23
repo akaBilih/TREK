@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import type { AutoDesignedInput, AutoEntry, AutoPhoto, BookElement, BookPageNumbers, JourneyStats } from '@trek/shared'
 import {
@@ -20,14 +20,8 @@ import { useProviderPhotoAdds } from '../journeyDetail/useProviderPhotoAdds'
 import { useIsMobile } from '../../hooks/useIsMobile'
 import { PAGE_PRESETS, clampPageSize, type PagePresetId } from '../../components/Studio/pagePresets'
 import { resolveBindings } from '../../components/Studio/resolveBindings'
+import { PX_PER_MM, useStudioZoom } from './useStudioZoom'
 
-/** CSS defines 1in as 96px and 25.4mm, so this factor is exact, not a guess. */
-const PX_PER_MM = 96 / 25.4
-
-const ZOOM_STEPS = [0.1, 0.15, 0.25, 0.35, 0.5, 0.65, 0.8, 1, 1.25, 1.5, 2, 3]
-const MIN_ZOOM = ZOOM_STEPS[0]
-const MAX_ZOOM = ZOOM_STEPS[ZOOM_STEPS.length - 1]
-const WORK_PADDING_PX = 72
 
 /** Studio's margin to the window on all four sides — see `.st-root` in studio.css. */
 export const STUDIO_INSET = 16
@@ -88,8 +82,6 @@ export function useJourneyStudio() {
   const origin = (location.state as { studioOrigin?: { x: number; y: number } } | null)?.studioOrigin ?? null
 
   const [closing, setClosing] = useState(false)
-  const [zoom, setZoom] = useState(0.4)
-  const [autoFit, setAutoFit] = useState(true)
   const [stats, setStats] = useState<JourneyStats | null>(null)
   /*
    * Whether the figures have been *asked for* — success or failure both count.
@@ -142,7 +134,6 @@ export function useJourneyStudio() {
    */
   const presence = useBookPresence(journeyId)
 
-  const workRef = useRef<HTMLDivElement>(null)
   const builtFor = useRef<number | null>(null)
   /*
    * What the book was laid out from, kept so it can be laid out again.
@@ -403,6 +394,7 @@ export function useJourneyStudio() {
   const page = doc?.page ?? EMPTY_PAGE
   const spread = doc?.spreads[activeSpread] ?? null
   const spreadWidthMm = spread && spread.role === 'inner' ? page.pageWidth * 2 : page.pageWidth
+  const { zoom, setAutoFit, workRef, stepZoom, zoomToFit, canZoomIn, canZoomOut } = useStudioZoom(spreadWidthMm, page.pageHeight)
 
   const setPreset = useCallback((next: PagePresetId) => {
     const p = PAGE_PRESETS[next]
@@ -418,7 +410,7 @@ export function useJourneyStudio() {
       },
     }))
     setAutoFit(true)
-  }, [commit])
+  }, [commit, setAutoFit])
 
   /**
    * A free trim size.
@@ -457,7 +449,7 @@ export function useJourneyStudio() {
       },
     }))
     setAutoFit(true)
-  }, [commit])
+  }, [commit, setAutoFit])
 
   /**
    * Lay out again — one spread, or the whole book.
@@ -536,43 +528,6 @@ export function useJourneyStudio() {
      */
   }, [doc, queueSave, bookLoaded, journey])
 
-  /** Largest zoom at which the whole spread still fits the workbench. */
-  const fitZoom = useCallback(() => {
-    const el = workRef.current
-    if (!el) return 0.4
-    const availW = el.clientWidth - WORK_PADDING_PX * 2
-    const availH = el.clientHeight - WORK_PADDING_PX * 2
-    if (availW <= 0 || availH <= 0) return 0.4
-    const z = Math.min(availW / (spreadWidthMm * PX_PER_MM), availH / (page.pageHeight * PX_PER_MM))
-    return Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, z))
-  }, [spreadWidthMm, page.pageHeight])
-
-  const zoomToFit = useCallback(() => {
-    setAutoFit(true)
-    setZoom(fitZoom())
-  }, [fitZoom])
-
-  // Fit on mount and on resize, but only while the user has not taken over the
-  // zoom — otherwise a window resize would silently undo their choice.
-  useLayoutEffect(() => {
-    if (autoFit) setZoom(fitZoom())
-  }, [autoFit, fitZoom])
-
-  useEffect(() => {
-    const el = workRef.current
-    if (!el || typeof ResizeObserver === 'undefined') return
-    const ro = new ResizeObserver(() => { if (autoFit) setZoom(fitZoom()) })
-    ro.observe(el)
-    return () => ro.disconnect()
-  }, [autoFit, fitZoom])
-
-  const stepZoom = useCallback((dir: 1 | -1) => {
-    setAutoFit(false)
-    setZoom(prev => {
-      if (dir === 1) return ZOOM_STEPS.find(s => s > prev + 0.001) ?? MAX_ZOOM
-      return [...ZOOM_STEPS].reverse().find(s => s < prev - 0.001) ?? MIN_ZOOM
-    })
-  }, [])
 
   const close = useCallback(() => {
     // Whatever is still queued goes now: the debounce exists so a drag is one
@@ -815,8 +770,8 @@ export function useJourneyStudio() {
     zoomPercent: Math.round(zoom * 100),
     stepZoom,
     zoomToFit,
-    canZoomIn: zoom < MAX_ZOOM - 0.001,
-    canZoomOut: zoom > MIN_ZOOM + 0.001,
+    canZoomIn,
+    canZoomOut,
     workRef,
 
     undo,
