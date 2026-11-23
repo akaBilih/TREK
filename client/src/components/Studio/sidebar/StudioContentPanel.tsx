@@ -1,9 +1,8 @@
 import type { BookPageSetup } from '@trek/shared';
 import { ImagePlus, Upload } from 'lucide-react';
-import { useId, useState } from 'react';
+import { useId, useMemo, useState } from 'react';
 
 import { useStudioStore } from '../../../store/studioStore';
-import { photoSrc } from '../bookRender';
 import {
   emptyKeyFor,
   entriesOnPage,
@@ -19,7 +18,9 @@ import type { JourneySource, StudioT } from '../StudioSidebar';
 import { StudioTabPanel, StudioTabs } from '../StudioTabs';
 import type { StudioUploader } from '../studioUpload';
 import { photoDrop, type DropPlace } from './contentDrops';
+import { photoUsage, pageLabelOf } from './photoUsage';
 import { StudioEntryCard } from './StudioEntryCard';
+import { StudioPhotoCell } from './StudioPhotoCell';
 import { useContentUpload } from './useContentUpload';
 
 /**
@@ -70,7 +71,11 @@ export function StudioContentPanel({
   const tabsId = useId();
 
   const entries = matchingEntries(source, query);
-  const admitted = photosFor(source, filter);
+  // Where each picture already sits; recomputed only when the book changes, not on every render.
+  const doc = useStudioStore((s) => s.doc);
+  const usage = useMemo(() => photoUsage(doc), [doc]);
+  const unusedCount = useMemo(() => source.photos.filter((p) => !usage.has(p.photoId)).length, [source.photos, usage]);
+  const admitted = photosFor(source, filter, usage);
   const photos = matchingPhotos(admitted, source, query);
   const emptyKey = emptyKeyFor(source, filter, admitted);
 
@@ -129,6 +134,7 @@ export function StudioContentPanel({
           setFilter={setFilter}
           admitted={admitted.length}
           pageEntryIds={entriesOnPage(spread, source)}
+          unusedCount={unusedCount}
           t={t}
           locale={locale}
         />
@@ -186,27 +192,20 @@ export function StudioContentPanel({
                     <span>{t('journey.studio.fromProvider', { name: p.name })}</span>
                   </button>
                 ))}
-              {photos.map((p) => (
-                <button
-                  type="button"
-                  key={p.photoId}
-                  className="st-photo-cell"
-                  onClick={() => addElement(active, photoDrop(place, p.photoId))}
-                  title={t('journey.studio.addToPage')}
-                  aria-label={
-                    p.caption ? `${t('journey.studio.addToPage')}: ${p.caption}` : t('journey.studio.addToPage')
-                  }
-                  draggable
-                  onDragStart={(e) => {
-                    // HTML5 drag is the right tool for one item from a list onto a target, and it gives
-                    // the thumbnail as the drag image for free; the canvas uses pointer events instead.
-                    e.dataTransfer.setData('application/x-trek-photo', String(p.photoId));
-                    e.dataTransfer.effectAllowed = 'copy';
-                  }}
-                >
-                  <img src={photoSrc(p.photoId, false)} alt="" loading="lazy" draggable={false} />
-                </button>
-              ))}
+              {photos.map((p) => {
+                const uses = usage.get(p.photoId) ?? [];
+                return (
+                  <StudioPhotoCell
+                    key={p.photoId}
+                    photoId={p.photoId}
+                    caption={p.caption ?? null}
+                    uses={uses}
+                    pageLabel={doc && uses[0] ? pageLabelOf(doc, uses[0].spreadIndex) : ''}
+                    onAdd={() => addElement(active, photoDrop(place, p.photoId))}
+                    t={t}
+                  />
+                );
+              })}
               {!photos.length && <p className="st-hint">{t(emptyKey)}</p>}
             </div>
             {canEdit && (

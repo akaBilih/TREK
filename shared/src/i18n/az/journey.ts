@@ -736,6 +736,12 @@ const journey: TranslationStrings = {
   'journey.studio.entryPhotos': 'Fotolar',
   'journey.studio.noEntryPhotos': 'Bu qeyddə hələ foto yoxdur.',
   'journey.studio.noLoosePhotos': 'Buradakı bütün fotolar bir qeydə aiddir.',
+  'journey.studio.photoUsedOn': 'İstifadə olunduğu səhifə: {page}',
+  'journey.studio.photoUsed': '{count} dəfə istifadə olunub',
+  'journey.studio.photoUsed.one': 'Bir dəfə istifadə olunub',
+  'journey.studio.photoGoTo': 'İstifadə olunduğu yerə keç',
+  'journey.studio.filterUnused': 'Hələ istifadə olunmayıb',
+  'journey.studio.noUnusedPhotos': 'Bütün şəkillər artıq kitabdadır',
 
   'journey.studio.uploadPhotos': 'Fotolar yüklə',
 
