@@ -342,6 +342,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Збільшити',
   'journey.studio.zoomOut': 'Зменшити',
   'journey.studio.zoomFit': 'Вмістити у вікно',
+  'journey.studio.prevPage': 'Попередня сторінка',
+  'journey.studio.nextPage': 'Наступна сторінка',
   'journey.studio.downloadSpread': 'Завантажити цей розворот',
   'journey.studio.downloadSpreadHint':
     'Зберігає оформлення розвороту у файл, без світлин, щоб поділитися чи використати ще раз',

@@ -325,6 +325,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Μεγέθυνση',
   'journey.studio.zoomOut': 'Σμίκρυνση',
   'journey.studio.zoomFit': 'Προσαρμογή στην προβολή',
+  'journey.studio.prevPage': 'Προηγούμενη σελίδα',
+  'journey.studio.nextPage': 'Επόμενη σελίδα',
   'journey.studio.downloadSpread': 'Λήψη αυτού του δισέλιδου',
   'journey.studio.downloadSpreadHint':
     'Αποθηκεύει τη σχεδίαση του δισέλιδου ως αρχείο, χωρίς τις φωτογραφίες, για κοινή χρήση ή επαναχρησιμοποίηση',

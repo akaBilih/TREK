@@ -348,6 +348,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Yaxınlaşdır',
   'journey.studio.zoomOut': 'Uzaqlaşdır',
   'journey.studio.zoomFit': 'Görünüşə sığdır',
+  'journey.studio.prevPage': 'Əvvəlki səhifə',
+  'journey.studio.nextPage': 'Növbəti səhifə',
 
   'journey.studio.downloadSpread': 'Bu açılımı endir',
   'journey.studio.downloadSpreadHint':

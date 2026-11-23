@@ -10,6 +10,7 @@ import type { RailSection } from './sidebar/railSections'
 import { ProviderPicker } from '../Journey/JourneyDetailPageProviderPicker'
 import { useAuthStore } from '../../store/authStore'
 import { StudioCanvas } from './StudioCanvas'
+import { StudioPageStepper } from './StudioPageStepper'
 import { StudioInspector } from './StudioInspector'
 import { StudioPaletteScope } from './paint/StudioPalette'
 import { downloadSpread } from './spreadFile'
@@ -190,6 +191,7 @@ function Workbench({ s, bookView, setBookView }: { s: Studio; bookView: boolean;
       </div>
 
       <div className="st-zoom">
+        <StudioPageStepper />
         <button type="button" onClick={() => s.stepZoom(-1)} disabled={!s.canZoomOut} aria-label={s.t('journey.studio.zoomOut')}>
           <Minus size={15} />
         </button>

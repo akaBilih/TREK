@@ -350,6 +350,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'تكبير',
   'journey.studio.zoomOut': 'تصغير',
   'journey.studio.zoomFit': 'ملاءمة العرض',
+  'journey.studio.prevPage': 'الصفحة السابقة',
+  'journey.studio.nextPage': 'الصفحة التالية',
   'journey.studio.downloadSpread': 'تنزيل هذه الصفحة المزدوجة',
   'journey.studio.downloadSpreadHint': 'يحفظ تصميم هذه الصفحة كملف، بدون الصور، لمشاركته أو إعادة استخدامه',
   'journey.studio.importSpread': 'استيراد',
