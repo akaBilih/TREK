@@ -342,6 +342,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Konum',
   'journey.studio.width': 'G',
   'journey.studio.height': 'Y',
+  'journey.studio.lockRatio': 'Oranı kilitle',
+  'journey.studio.resizeHint': 'Bir tutamacı sürüklerken: Shift oranı korur, Alt (Option) merkezden yeniden boyutlandırır.',
   'journey.studio.text': 'Metin',
   'journey.studio.typography': 'Yazı',
   'journey.studio.leading': 'Satır',

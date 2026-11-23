@@ -371,6 +371,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'الموضع',
   'journey.studio.width': 'العرض',
   'journey.studio.height': 'الارتفاع',
+  'journey.studio.lockRatio': 'قفل النسبة',
+  'journey.studio.resizeHint': 'أثناء سحب المقبض: Shift يحافظ على النسبة، وAlt (Option) يغيّر الحجم من المركز.',
   'journey.studio.text': 'النص',
   'journey.studio.typography': 'الخط',
   'journey.studio.leading': 'التباعد',

@@ -345,6 +345,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Posição',
   'journey.studio.width': 'L',
   'journey.studio.height': 'A',
+  'journey.studio.lockRatio': 'Prennañ ar gevatalenn',
+  'journey.studio.resizeHint': 'P\'emaoc\'h o sachañ ur stur: Shift a derc\'h ar gevatalenn, Alt (Option) a cheñch ar vent diouzh ar c\'kreiz.',
   'journey.studio.text': 'Texto',
   'journey.studio.typography': 'Fonte',
   'journey.studio.leading': 'Linha',

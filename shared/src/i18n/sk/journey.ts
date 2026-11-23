@@ -352,6 +352,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Poloha',
   'journey.studio.width': 'Š',
   'journey.studio.height': 'V',
+  'journey.studio.lockRatio': 'Zamknúť pomer',
+  'journey.studio.resizeHint': 'Pri ťahaní úchytu: Shift zachová pomer strán, Alt (Option) zmení veľkosť od stredu.',
   'journey.studio.text': 'Text', // same-as-en
   'journey.studio.typography': 'Písmo',
   'journey.studio.leading': 'Riadok',

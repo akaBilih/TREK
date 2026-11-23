@@ -343,6 +343,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Position',
   'journey.studio.width': 'L',
   'journey.studio.height': 'H',
+  'journey.studio.lockRatio': 'Verrouiller les proportions',
+  'journey.studio.resizeHint': 'En faisant glisser une poignée : Maj conserve les proportions, Alt (Option) redimensionne depuis le centre.',
   'journey.studio.text': 'Texte',
   'journey.studio.typography': 'Police',
   'journey.studio.leading': 'Interligne',

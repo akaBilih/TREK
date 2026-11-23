@@ -361,6 +361,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Położenie',
   'journey.studio.width': 'Szer.',
   'journey.studio.height': 'Wys.',
+  'journey.studio.lockRatio': 'Zablokuj proporcje',
+  'journey.studio.resizeHint': 'Podczas przeciągania uchwytu: Shift zachowuje proporcje, Alt (Option) zmienia rozmiar od środka.',
   'journey.studio.text': 'Tekst',
   'journey.studio.typography': 'Czcionka',
   'journey.studio.leading': 'Interlinia',

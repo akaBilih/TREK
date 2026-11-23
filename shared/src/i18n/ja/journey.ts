@@ -331,6 +331,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': '位置',
   'journey.studio.width': '幅',
   'journey.studio.height': '高さ',
+  'journey.studio.lockRatio': '縦横比を固定',
+  'journey.studio.resizeHint': 'ハンドルをドラッグ中：Shift で縦横比を保ち、Alt（Option）で中心からサイズ変更します。',
   'journey.studio.text': 'テキスト',
   'journey.studio.typography': '文字',
   'journey.studio.leading': '行間',

@@ -342,6 +342,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Asukoht',
   'journey.studio.width': 'L',
   'journey.studio.height': 'K',
+  'journey.studio.lockRatio': 'Lukusta külgede suhe',
+  'journey.studio.resizeHint': 'Käepideme lohistamisel: Shift hoiab külgede suhet, Alt (Option) muudab suurust keskpunktist.',
   'journey.studio.text': 'Tekst',
   'journey.studio.typography': 'Kirjatüüp',
   'journey.studio.leading': 'Rida',

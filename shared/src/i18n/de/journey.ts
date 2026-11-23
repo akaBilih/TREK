@@ -345,6 +345,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Position', // same-as-en
   'journey.studio.width': 'B',
   'journey.studio.height': 'H',
+  'journey.studio.lockRatio': 'Seitenverhältnis sperren',
+  'journey.studio.resizeHint': 'Beim Ziehen eines Griffs: Umschalt behält das Seitenverhältnis, Alt (Option) skaliert vom Mittelpunkt aus.',
   'journey.studio.text': 'Text', // same-as-en
   'journey.studio.typography': 'Schrift',
   'journey.studio.leading': 'Zeile',

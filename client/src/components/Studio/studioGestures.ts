@@ -21,6 +21,14 @@ export function boxOf(frames: readonly BookFrame[]): BookFrame {
   return { x, y, w: right - x, h: bottom - y };
 }
 
+/** What the modifier keys ask of a resize. */
+export interface ResizeOptions {
+  /** Keep the box's proportions (Shift). */
+  keepAspect?: boolean;
+  /** Grow and shrink about the centre, the opposite edge moving too (Alt/Option). */
+  fromCenter?: boolean;
+}
+
 /**
  * A box dragged by one of its handles by `dx`/`dy` millimetres.
  *
@@ -28,22 +36,27 @@ export function boxOf(frames: readonly BookFrame[]): BookFrame {
  * stops at the minimum size against that edge. With `keepAspect` a corner
  * keeps the box's proportions, following whichever of the two directions the
  * pointer went further in, and an edge handle grows the other side about the
- * middle, the way design tools do it.
+ * middle, the way design tools do it. With `fromCenter` the box is resized
+ * about its centre instead: the pointer's move counts on both sides, so the
+ * opposite edge mirrors the dragged one, and the minimum holds on both axes
+ * about that centre. A plain boolean still means `keepAspect`.
  */
 export function resizeBox(
   base: BookFrame,
   handle: HandleId,
   by: { dx: number; dy: number },
-  keepAspect: boolean
+  options: boolean | ResizeOptions
 ): BookFrame {
+  const { keepAspect = false, fromCenter = false } = typeof options === 'boolean' ? { keepAspect: options } : options;
   const side = sidesOf(handle);
-  const w = base.w + (side.east ? by.dx : side.west ? -by.dx : 0);
-  const h = base.h + (side.south ? by.dy : side.north ? -by.dy : 0);
+  const reach = fromCenter ? 2 : 1;
+  const w = base.w + reach * (side.east ? by.dx : side.west ? -by.dx : 0);
+  const h = base.h + reach * (side.south ? by.dy : side.north ? -by.dy : 0);
   const size =
     keepAspect && base.w > 0 && base.h > 0
       ? heldSize(base, side, w, h)
       : { w: Math.max(w, MIN_FRAME_MM), h: Math.max(h, MIN_FRAME_MM) };
-  return placed(base, side, size);
+  return placed(base, fromCenter ? CENTRED : side, size);
 }
 
 interface Sides {
@@ -52,6 +65,9 @@ interface Sides {
   north: boolean;
   south: boolean;
 }
+
+/** No edge pinned: the box is placed about its middle on both axes. */
+const CENTRED: Sides = { west: false, east: false, north: false, south: false };
 
 const sidesOf = (handle: HandleId): Sides => ({
   west: handle.includes('w'),

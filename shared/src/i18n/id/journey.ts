@@ -333,6 +333,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Posisi',
   'journey.studio.width': 'L',
   'journey.studio.height': 'T',
+  'journey.studio.lockRatio': 'Kunci rasio',
+  'journey.studio.resizeHint': 'Saat menyeret gagang: Shift menjaga rasio, Alt (Option) mengubah ukuran dari tengah.',
   'journey.studio.text': 'Teks',
   'journey.studio.typography': 'Huruf',
   'journey.studio.leading': 'Baris',

@@ -349,6 +349,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Pozice',
   'journey.studio.width': 'Š',
   'journey.studio.height': 'V',
+  'journey.studio.lockRatio': 'Zamknout poměr',
+  'journey.studio.resizeHint': 'Při tažení úchytu: Shift zachová poměr stran, Alt (Option) změní velikost od středu.',
   'journey.studio.text': 'Text', // same-as-en
   'journey.studio.typography': 'Písmo',
   'journey.studio.leading': 'Řádek',

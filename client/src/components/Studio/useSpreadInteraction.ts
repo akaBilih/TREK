@@ -308,14 +308,17 @@ export function useSpreadInteraction(opts: {
        * multi-selection or a group grows as one picture rather than each
        * element stretching about its own corner. With one element the box is
        * its frame and this is the plain resize it always was. Shift keeps the
-       * proportions; the snap then stays out of it, since an edge pulled onto
-       * a line would bend the ratio Shift is holding.
+       * proportions and Alt/Option resizes about the centre. The snap stays out
+       * of both: an edge pulled onto a line would bend the ratio Shift is
+       * holding, and with Alt the opposite edge moves as well, so one line
+       * could not be honoured without moving the other.
        */
       const h = g.handle
       const keep = e.shiftKey
-      let box = resizeBox(g.baseBox, h, { dx: dxMm, dy: dyMm }, keep)
+      const fromCenter = e.altKey
+      let box = resizeBox(g.baseBox, h, { dx: dxMm, dy: dyMm }, { keepAspect: keep, fromCenter })
 
-      if (!keep) box = snapBox(box, h, g.baseBox, { xs, ys, tolMm }, nextGuides)
+      if (!keep && !fromCenter) box = snapBox(box, h, g.baseBox, { xs, ys, tolMm }, nextGuides)
 
       for (const [id, f] of g.base) setFrame(spreadIndex, id, mapFrame(f, g.baseBox, box))
     }
@@ -451,6 +454,8 @@ export function useSpreadInteraction(opts: {
 
   const startResize = useCallback((e: React.PointerEvent, handle: HandleId) => {
     e.stopPropagation()
+    // Alt-drag is a window-move on some Linux desktops; keep the press for the resize.
+    if (e.altKey) e.preventDefault()
     const unlocked = (spread?.elements ?? []).filter(el => selection.includes(el.id) && !el.locked).map(el => el.id)
     const base = framesFor(unlocked)
     if (!base.size) return

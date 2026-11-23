@@ -1,5 +1,6 @@
-import type { BookElement } from '@trek/shared';
+import type { BookElement, BookFrame } from '@trek/shared';
 import { RotateCcw, RotateCw } from 'lucide-react';
+import { useState } from 'react';
 
 import { NumField, Section, Switch } from '../StudioControls';
 import { turned } from '../stickerLibrary';
@@ -23,6 +24,22 @@ import { positionInUse } from './inspectorModel';
  * angle and opacity beside these, so a sticker had two of each.
  */
 
+/** The smallest side a frame is typed down to, the same as dragging stops at. */
+const MIN_SIDE = 4;
+
+/**
+ * The frame with one side typed in and, when the ratio is locked, the other
+ * following at the proportions the frame had. One patch, so one undo step.
+ */
+function sizedFrame(frame: BookFrame, side: 'w' | 'h', value: number, locked: boolean): BookFrame {
+  if (!locked || frame.w <= 0 || frame.h <= 0) return { ...frame, [side]: value };
+  const ratio = frame.w / frame.h;
+  const v = Math.max(value, MIN_SIDE);
+  return side === 'w'
+    ? { ...frame, w: v, h: Math.max(v / ratio, MIN_SIDE) }
+    : { ...frame, h: v, w: Math.max(v * ratio, MIN_SIDE) };
+}
+
 /** A quarter of a right angle and a little: what the turn buttons tip an element by. */
 const TURN_STEP = 15;
 
@@ -40,6 +57,7 @@ export function StudioPositionSection({
   t: (k: string) => string;
 }) {
   const { frame } = el;
+  const [lockRatio, setLockRatio] = useState(false);
   const one = sel.length <= 1;
   const turnLeft = t('journey.studio.stickerTurnLeft');
   const turnRight = t('journey.studio.stickerTurnRight');
@@ -55,16 +73,22 @@ export function StudioPositionSection({
             value={frame.w}
             min={4}
             unit="mm"
-            onChange={(v) => set({ frame: { ...frame, w: v } })}
+            onChange={(v) => set({ frame: sizedFrame(frame, 'w', v, lockRatio) })}
           />
           <NumField
             label={t('journey.studio.height')}
             value={frame.h}
             min={4}
             unit="mm"
-            onChange={(v) => set({ frame: { ...frame, h: v } })}
+            onChange={(v) => set({ frame: sizedFrame(frame, 'h', v, lockRatio) })}
           />
         </div>
+      )}
+      {one && (
+        <>
+          <Switch label={t('journey.studio.lockRatio')} on={lockRatio} onToggle={() => setLockRatio((on) => !on)} />
+          <div className="st-hint">{t('journey.studio.resizeHint')}</div>
+        </>
       )}
       <div className={`st-grid2 ${one ? 'st-position-row' : ''}`}>
         <NumField
