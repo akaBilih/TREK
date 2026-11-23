@@ -139,3 +139,15 @@
     0 0 0 2px var(--accent-soft),
     0 0 0 3px var(--accent);
 }
+
+/* The entry filter's menu. A journey can have a hundred entries: the list
+   scrolls inside the room the viewport leaves under the chip instead of
+   running off the side panel. */
+.trek-dash .st-filter-row .st-menu {
+  max-height: max(12rem, calc(100dvh - 240px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.trek-dash .st-filter-row .st-menu > * {
+  flex: none;
+}
