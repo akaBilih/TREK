@@ -1,4 +1,4 @@
-import type { BookElement, BookSpread } from '@trek/shared';
+import type { BookElement, BookFrame, BookSpread } from '@trek/shared';
 import { bookShapeElementSchema } from '@trek/shared';
 import { describe, expect, it } from 'vitest';
 
@@ -40,6 +40,69 @@ describe('resizeBox', () => {
     const tiny = resizeBox(base, 'se', { dx: -100, dy: -100 }, true);
     expect(tiny.h).toBeGreaterThanOrEqual(MIN_FRAME_MM);
     expect(tiny.w / tiny.h).toBeCloseTo(2);
+  });
+});
+
+describe('resizeBox from the centre', () => {
+  const centre = { x: base.x + base.w / 2, y: base.y + base.h / 2 };
+  const centreOf = (b: BookFrame) => ({ x: (b.x ?? 0) + (b.w ?? 0) / 2, y: (b.y ?? 0) + (b.h ?? 0) / 2 });
+
+  it('moves the opposite edge as well on every handle, keeping the centre', () => {
+    expect(resizeBox(base, 'e', { dx: 10, dy: 99 }, { fromCenter: true })).toEqual({ x: 0, y: 10, w: 60, h: 20 });
+    expect(resizeBox(base, 'w', { dx: -10, dy: 99 }, { fromCenter: true })).toEqual({ x: 0, y: 10, w: 60, h: 20 });
+    expect(resizeBox(base, 's', { dx: 99, dy: 5 }, { fromCenter: true })).toEqual({ x: 10, y: 5, w: 40, h: 30 });
+    expect(resizeBox(base, 'n', { dx: 99, dy: -5 }, { fromCenter: true })).toEqual({ x: 10, y: 5, w: 40, h: 30 });
+    for (const handle of ['nw', 'ne', 'se', 'sw'] as const) {
+      const box = resizeBox(base, handle, { dx: 6, dy: -4 }, { fromCenter: true });
+      expect(centreOf(box)).toEqual(centre);
+    }
+    expect(resizeBox(base, 'se', { dx: 10, dy: 5 }, { fromCenter: true })).toEqual({ x: 0, y: 5, w: 60, h: 30 });
+    expect(resizeBox(base, 'nw', { dx: -10, dy: -5 }, { fromCenter: true })).toEqual({ x: 0, y: 5, w: 60, h: 30 });
+    expect(resizeBox(base, 'ne', { dx: 10, dy: -5 }, { fromCenter: true })).toEqual({ x: 0, y: 5, w: 60, h: 30 });
+    expect(resizeBox(base, 'sw', { dx: -10, dy: 5 }, { fromCenter: true })).toEqual({ x: 0, y: 5, w: 60, h: 30 });
+  });
+
+  it('keeps the proportions about the centre with both modifiers', () => {
+    expect(resizeBox(base, 'se', { dx: 20, dy: 0 }, { keepAspect: true, fromCenter: true })).toEqual({
+      x: -10,
+      y: 0,
+      w: 80,
+      h: 40,
+    });
+    expect(resizeBox(base, 'nw', { dx: 0, dy: -10 }, { keepAspect: true, fromCenter: true })).toEqual({
+      x: -10,
+      y: 0,
+      w: 80,
+      h: 40,
+    });
+    // An edge handle grows the other axis too, about the middle.
+    expect(resizeBox(base, 'e', { dx: 20, dy: 0 }, { keepAspect: true, fromCenter: true })).toEqual({
+      x: -10,
+      y: 0,
+      w: 80,
+      h: 40,
+    });
+  });
+
+  it('holds the minimum on both axes about the centre', () => {
+    const flat = resizeBox(base, 'se', { dx: -100, dy: -100 }, { fromCenter: true });
+    expect(flat).toEqual({
+      x: centre.x - MIN_FRAME_MM / 2,
+      y: centre.y - MIN_FRAME_MM / 2,
+      w: MIN_FRAME_MM,
+      h: MIN_FRAME_MM,
+    });
+    const held = resizeBox(base, 'se', { dx: -100, dy: -100 }, { keepAspect: true, fromCenter: true });
+    expect(held.h).toBeGreaterThanOrEqual(MIN_FRAME_MM);
+    expect(held.w / held.h).toBeCloseTo(2);
+    expect(centreOf(held)).toEqual(centre);
+  });
+
+  it('treats the options object like the old boolean when only the aspect is asked for', () => {
+    expect(resizeBox(base, 'se', { dx: 40, dy: 0 }, { keepAspect: true })).toEqual(
+      resizeBox(base, 'se', { dx: 40, dy: 0 }, true)
+    );
+    expect(resizeBox(base, 'e', { dx: 10, dy: 0 }, {})).toEqual(resizeBox(base, 'e', { dx: 10, dy: 0 }, false));
   });
 });
 

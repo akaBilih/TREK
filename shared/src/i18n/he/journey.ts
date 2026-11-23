@@ -340,6 +340,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'מיקום',
   'journey.studio.width': 'ר',
   'journey.studio.height': 'ג',
+  'journey.studio.lockRatio': 'נעילת יחס',
+  'journey.studio.resizeHint': 'בגרירת ידית: Shift שומר על היחס, ו-Alt (Option) משנה גודל מהמרכז.',
   'journey.studio.text': 'טקסט',
   'journey.studio.typography': 'גופן',
   'journey.studio.leading': 'שורה',

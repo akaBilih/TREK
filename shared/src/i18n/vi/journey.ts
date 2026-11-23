@@ -329,6 +329,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Vị trí',
   'journey.studio.width': 'R',
   'journey.studio.height': 'C',
+  'journey.studio.lockRatio': 'Khóa tỉ lệ',
+  'journey.studio.resizeHint': 'Khi kéo tay nắm: Shift giữ nguyên tỉ lệ, Alt (Option) đổi kích thước từ tâm.',
   'journey.studio.text': 'Văn bản',
   'journey.studio.typography': 'Kiểu chữ',
   'journey.studio.leading': 'Dòng',

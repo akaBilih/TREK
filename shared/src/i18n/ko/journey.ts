@@ -324,6 +324,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': '위치',
   'journey.studio.width': '너비',
   'journey.studio.height': '높이',
+  'journey.studio.lockRatio': '비율 잠금',
+  'journey.studio.resizeHint': '핸들을 끄는 동안: Shift는 비율을 유지하고 Alt(Option)는 중심에서 크기를 조절합니다.',
   'journey.studio.text': '텍스트',
   'journey.studio.typography': '글꼴',
   'journey.studio.leading': '행간',

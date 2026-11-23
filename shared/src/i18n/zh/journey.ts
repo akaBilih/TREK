@@ -321,6 +321,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': '位置',
   'journey.studio.width': '宽',
   'journey.studio.height': '高',
+  'journey.studio.lockRatio': '锁定比例',
+  'journey.studio.resizeHint': '拖动控制点时：按住 Shift 保持比例，按住 Alt（Option）从中心缩放。',
   'journey.studio.text': '文字',
   'journey.studio.typography': '字体',
   'journey.studio.leading': '行距',

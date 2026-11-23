@@ -356,6 +356,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Положение',
   'journey.studio.width': 'Ш',
   'journey.studio.height': 'В',
+  'journey.studio.lockRatio': 'Зафиксировать пропорции',
+  'journey.studio.resizeHint': 'При перетаскивании маркера: Shift сохраняет пропорции, Alt (Option) меняет размер от центра.',
   'journey.studio.text': 'Текст',
   'journey.studio.typography': 'Шрифт',
   'journey.studio.leading': 'Интерлиньяж',

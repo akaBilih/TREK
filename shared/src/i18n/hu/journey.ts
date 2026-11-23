@@ -337,6 +337,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Pozíció',
   'journey.studio.width': 'Szél.',
   'journey.studio.height': 'Mag.',
+  'journey.studio.lockRatio': 'Arány zárolása',
+  'journey.studio.resizeHint': 'Fogantyú húzásakor: a Shift megtartja az arányt, az Alt (Option) a középpontból méretez át.',
   'journey.studio.text': 'Szöveg',
   'journey.studio.typography': 'Betű',
   'journey.studio.leading': 'Sorköz',

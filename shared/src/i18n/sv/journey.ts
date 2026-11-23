@@ -337,6 +337,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Position', // same-as-en
   'journey.studio.width': 'B',
   'journey.studio.height': 'H',
+  'journey.studio.lockRatio': 'Lås proportionerna',
+  'journey.studio.resizeHint': 'När du drar i ett handtag: Skift behåller proportionerna, Alt (Option) ändrar storlek från mitten.',
   'journey.studio.text': 'Text', // same-as-en
   'journey.studio.typography': 'Typsnitt',
   'journey.studio.leading': 'Rad',

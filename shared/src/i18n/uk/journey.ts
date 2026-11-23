@@ -360,6 +360,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Позиція',
   'journey.studio.width': 'Ш',
   'journey.studio.height': 'В',
+  'journey.studio.lockRatio': 'Зафіксувати пропорції',
+  'journey.studio.resizeHint': 'Під час перетягування маркера: Shift зберігає пропорції, Alt (Option) змінює розмір від центра.',
   'journey.studio.text': 'Текст',
   'journey.studio.typography': 'Шрифт',
   'journey.studio.leading': 'Інтервал',

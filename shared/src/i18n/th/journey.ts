@@ -321,6 +321,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'ตำแหน่ง',
   'journey.studio.width': 'ว',
   'journey.studio.height': 'ฮ',
+  'journey.studio.lockRatio': 'ล็อกอัตราส่วน',
+  'journey.studio.resizeHint': 'ขณะลากจุดจับ: Shift คงอัตราส่วน, Alt (Option) ปรับขนาดจากจุดศูนย์กลาง',
   'journey.studio.text': 'ข้อความ',
   'journey.studio.typography': 'ประเภท',
   'journey.studio.leading': 'เส้น',

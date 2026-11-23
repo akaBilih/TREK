@@ -343,6 +343,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Θέση',
   'journey.studio.width': 'Π',
   'journey.studio.height': 'Υ',
+  'journey.studio.lockRatio': 'Κλείδωμα αναλογίας',
+  'journey.studio.resizeHint': 'Όταν σύρετε μια λαβή: το Shift διατηρεί την αναλογία, το Alt (Option) αλλάζει μέγεθος από το κέντρο.',
   'journey.studio.text': 'Κείμενο',
   'journey.studio.typography': 'Γραμματοσειρά',
   'journey.studio.leading': 'Διάστιχο',
