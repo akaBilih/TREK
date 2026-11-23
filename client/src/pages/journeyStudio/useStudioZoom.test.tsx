@@ -1,5 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { PX_PER_MM, useStudioZoom } from './useStudioZoom';
+import { anchoredScroll } from './zoomAnchor';
 
 const W_MM = 200;
 const H_MM = 100;
@@ -68,5 +69,64 @@ describe('useStudioZoom', () => {
     act(() => result.current.zoomToFit());
     expect(el.scrollLeft).toBe(0);
     expect(el.scrollTop).toBe(0);
+  });
+});
+
+describe('useStudioZoom wheel zoom', () => {
+  function wheel(el: HTMLElement, init: WheelEventInit) {
+    const e = new WheelEvent('wheel', { bubbles: true, cancelable: true, ...init });
+    el.dispatchEvent(e);
+    return e;
+  }
+
+  it('zooms on Ctrl+wheel at the pointer and cancels the browser zoom', () => {
+    const { result, el, rerender } = mount();
+    rerender();
+    el.getBoundingClientRect = () => ({ left: 10, top: 20 }) as DOMRect;
+    const before = result.current.zoom;
+    let e!: WheelEvent;
+    act(() => {
+      e = wheel(el, { ctrlKey: true, deltaY: -100, clientX: 110, clientY: 220 });
+    });
+    expect(e.defaultPrevented).toBe(true);
+    expect(result.current.zoom).toBeCloseTo(before * 1.1, 5);
+    // Anchored at the pointer (100, 200 from the workbench origin), not the centre.
+    const expected = anchoredScroll({
+      scroll: { x: 0, y: 0 },
+      viewport: { width: 800, height: 600 },
+      anchor: { x: 100, y: 200 },
+      base: { width: BASE_W, height: H_MM * PX_PER_MM },
+      oldZoom: before,
+      newZoom: result.current.zoom,
+    });
+    expect(el.scrollLeft).toBe(expected.x);
+    expect(el.scrollTop).toBe(expected.y);
+  });
+
+  it('compounds several events from the latest zoom and clamps', () => {
+    const { result, el, rerender } = mount();
+    rerender();
+    const before = result.current.zoom;
+    act(() => {
+      wheel(el, { ctrlKey: true, deltaY: -100 });
+      wheel(el, { ctrlKey: true, deltaY: -100 });
+    });
+    expect(result.current.zoom).toBeCloseTo(before * 1.21, 5);
+    act(() => {
+      for (let i = 0; i < 40; i++) wheel(el, { ctrlKey: true, deltaY: -300 });
+    });
+    expect(result.current.zoom).toBe(3);
+  });
+
+  it('ignores a wheel without Ctrl so the workbench keeps scrolling', () => {
+    const { result, el, rerender } = mount();
+    rerender();
+    const before = result.current.zoom;
+    let e!: WheelEvent;
+    act(() => {
+      e = wheel(el, { deltaY: -100 });
+    });
+    expect(e.defaultPrevented).toBe(false);
+    expect(result.current.zoom).toBe(before);
   });
 });
