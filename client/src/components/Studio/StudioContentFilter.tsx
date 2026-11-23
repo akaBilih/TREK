@@ -51,6 +51,13 @@ export function StudioContentFilter({
     }
   }, [open])
 
+  // A long list opens at the top; bring the entry in force into view.
+  useEffect(() => {
+    if (!open) return
+    const active = box.current?.querySelector<HTMLElement>('.st-menu [aria-checked="true"]')
+    active?.scrollIntoView?.({ block: 'nearest' })
+  }, [open])
+
   const pick = (f: PhotoFilter) => { setFilter(f); setOpen(false) }
   const withPhotos = source.entries.filter(e => e.photoIds.length > 0)
   const looseCount = source.photos.filter(p => !p.entryIds.length).length
