@@ -306,6 +306,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': '확대',
   'journey.studio.zoomOut': '축소',
   'journey.studio.zoomFit': '화면에 맞추기',
+  'journey.studio.prevPage': '이전 페이지',
+  'journey.studio.nextPage': '다음 페이지',
   'journey.studio.downloadSpread': '이 펼침면 내려받기',
   'journey.studio.downloadSpreadHint':
     '이 펼침면의 디자인을 사진 없이 파일로 저장합니다. 공유하거나 다시 쓸 수 있습니다',

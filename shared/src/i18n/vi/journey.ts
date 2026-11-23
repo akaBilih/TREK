@@ -311,6 +311,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Phóng to',
   'journey.studio.zoomOut': 'Thu nhỏ',
   'journey.studio.zoomFit': 'Vừa khung nhìn',
+  'journey.studio.prevPage': 'Trang trước',
+  'journey.studio.nextPage': 'Trang sau',
   'journey.studio.downloadSpread': 'Tải trang đôi này về',
   'journey.studio.downloadSpreadHint':
     'Lưu thiết kế của trang đôi này thành tệp, không kèm ảnh, để chia sẻ hoặc dùng lại',

@@ -309,6 +309,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': '拡大',
   'journey.studio.zoomOut': '縮小',
   'journey.studio.zoomFit': '画面に合わせる',
+  'journey.studio.prevPage': '前のページ',
+  'journey.studio.nextPage': '次のページ',
   'journey.studio.downloadSpread': 'この見開きをダウンロード',
   'journey.studio.downloadSpreadHint':
     'この見開きのデザインを、写真を除いてファイルに保存します。共有や再利用に使えます',

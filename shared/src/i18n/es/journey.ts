@@ -322,6 +322,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Acercar',
   'journey.studio.zoomOut': 'Alejar',
   'journey.studio.zoomFit': 'Ajustar a la vista',
+  'journey.studio.prevPage': 'Página anterior',
+  'journey.studio.nextPage': 'Página siguiente',
   'journey.studio.downloadSpread': 'Descargar esta doble página',
   'journey.studio.downloadSpreadHint':
     'Guarda el diseño de esta doble página como archivo, sin las fotos, para compartirlo o reutilizarlo',

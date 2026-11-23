@@ -311,6 +311,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Perbesar',
   'journey.studio.zoomOut': 'Perkecil',
   'journey.studio.zoomFit': 'Sesuaikan tampilan',
+  'journey.studio.prevPage': 'Halaman sebelumnya',
+  'journey.studio.nextPage': 'Halaman berikutnya',
   'journey.studio.downloadSpread': 'Unduh halaman ganda ini',
   'journey.studio.downloadSpreadHint':
     'Menyimpan desain halaman ganda ini sebagai berkas, tanpa foto, untuk dibagikan atau dipakai lagi',

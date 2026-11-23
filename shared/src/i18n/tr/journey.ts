@@ -320,6 +320,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Yakınlaştır',
   'journey.studio.zoomOut': 'Uzaklaştır',
   'journey.studio.zoomFit': 'Görünüme sığdır',
+  'journey.studio.prevPage': 'Önceki sayfa',
+  'journey.studio.nextPage': 'Sonraki sayfa',
   'journey.studio.downloadSpread': 'Bu çift sayfayı indir',
   'journey.studio.downloadSpreadHint':
     'Bu çift sayfanın tasarımını fotoğraflar olmadan dosyaya kaydeder; paylaşmak ya da yeniden kullanmak için',

@@ -304,6 +304,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': '放大',
   'journey.studio.zoomOut': '缩小',
   'journey.studio.zoomFit': '适应视图',
+  'journey.studio.prevPage': '上一页',
+  'journey.studio.nextPage': '下一页',
   'journey.studio.downloadSpread': '下载此跨页',
   'journey.studio.downloadSpreadHint': '将此跨页的设计保存为文件（不含照片），便于分享或再次使用',
   'journey.studio.importSpread': '导入',

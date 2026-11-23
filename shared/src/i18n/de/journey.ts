@@ -323,6 +323,8 @@ const journey: TranslationStrings = {
   'journey.studio.zoomIn': 'Vergrößern',
   'journey.studio.zoomOut': 'Verkleinern',
   'journey.studio.zoomFit': 'Einpassen',
+  'journey.studio.prevPage': 'Vorherige Seite',
+  'journey.studio.nextPage': 'Nächste Seite',
   'journey.studio.downloadSpread': 'Diese Doppelseite herunterladen',
   'journey.studio.downloadSpreadHint':
     'Speichert das Design dieser Doppelseite als Datei, ohne die Fotos, zum Teilen oder Wiederverwenden',
