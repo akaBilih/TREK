@@ -371,6 +371,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Mövqe',
   'journey.studio.width': 'En',
   'journey.studio.height': 'Hündürlük',
+  'journey.studio.lockRatio': 'Nisbəti kilidlə',
+  'journey.studio.resizeHint': 'Tutacağı sürüşdürərkən: Shift nisbəti saxlayır, Alt (Option) mərkəzdən ölçü dəyişir.',
   'journey.studio.text': 'Mətn',
   'journey.studio.typography': 'Şrift',
   'journey.studio.leading': 'Sətirarası',

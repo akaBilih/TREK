@@ -343,6 +343,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Positie',
   'journey.studio.width': 'B',
   'journey.studio.height': 'H',
+  'journey.studio.lockRatio': 'Verhouding vergrendelen',
+  'journey.studio.resizeHint': 'Tijdens het slepen van een greep: Shift behoudt de verhouding, Alt (Option) schaalt vanuit het midden.',
   'journey.studio.text': 'Tekst',
   'journey.studio.typography': 'Lettertype',
   'journey.studio.leading': 'Regel',

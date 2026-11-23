@@ -341,6 +341,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Posició',
   'journey.studio.width': 'Am',
   'journey.studio.height': 'Al',
+  'journey.studio.lockRatio': 'Bloca la proporció',
+  'journey.studio.resizeHint': 'En arrossegar un nanses: Maj conserva la proporció i Alt (Option) canvia la mida des del centre.',
   'journey.studio.text': 'Text', // same-as-en
   'journey.studio.typography': 'Tipus',
   'journey.studio.leading': 'Línia',

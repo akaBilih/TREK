@@ -339,6 +339,8 @@ const journey: TranslationStrings = {
   'journey.studio.position': 'Position',
   'journey.studio.width': 'W',
   'journey.studio.height': 'H',
+  'journey.studio.lockRatio': 'Lock ratio',
+  'journey.studio.resizeHint': 'While dragging a handle: Shift keeps the ratio, Alt (Option) resizes from the centre.',
   'journey.studio.text': 'Text',
   'journey.studio.typography': 'Type',
   'journey.studio.leading': 'Line',
